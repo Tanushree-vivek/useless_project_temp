@@ -1,1 +1,772 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>കമ്പിളിപ്പുതപ്പ് കമ്പിളിപ്പുതപ്പ്</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,600;1,400&family=Nunito+Sans:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f3efe2;
+    --paper-deep:#ece5d2;
+    --pine:#3e5641;
+    --pine-soft:#5c7458;
+    --sage:#93ac8b;
+    --sky:#a9c3c6;
+    --ochre:#c99a44;
+    --clay:#c17a5f;
+    --ink:#2c2a22;
+    --ink-soft:#59543f;
+  }
 
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 20% -10%, rgba(169,195,198,0.35), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(201,154,68,0.18), transparent 55%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Nunito Sans', sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* soft paper grain */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:radial-gradient(rgba(44,42,34,0.045) 1px, transparent 1px);
+    background-size:3px 3px;
+    pointer-events:none;
+    z-index:1;
+  }
+
+  /* ---------- background scenery ---------- */
+  .bg-decor{
+    position:fixed; inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:0.55;
+    animation:drift 18s ease-in-out infinite;
+  }
+  .blob.b1{ width:420px; height:420px; background:var(--sage); top:-160px; left:-140px; animation-delay:0s; }
+  .blob.b2{ width:340px; height:340px; background:var(--sky); top:8%; right:-120px; animation-delay:3s; }
+  .blob.b3{ width:300px; height:300px; background:var(--ochre); opacity:0.28; bottom:-100px; left:10%; animation-delay:6s; }
+  .blob.b4{ width:260px; height:260px; background:var(--clay); opacity:0.22; bottom:6%; right:6%; animation-delay:2s; }
+  .blob.b5{ width:200px; height:200px; background:var(--pine-soft); opacity:0.18; top:38%; left:46%; animation-delay:5s; }
+
+  @keyframes drift{
+    0%, 100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(18px,-24px) scale(1.05); }
+  }
+
+  .hill{
+    position:absolute;
+    bottom:-6%; left:-8%;
+    width:60vw; height:220px;
+    background:var(--pine-soft);
+    opacity:0.14;
+    border-radius:50%;
+  }
+  .hill.hill2{
+    left:auto; right:-10%;
+    width:70vw; height:260px;
+    opacity:0.1;
+    background:var(--pine);
+  }
+
+  /* ---------- clouds ---------- */
+  .cloud{
+    position:absolute;
+    opacity:0.5;
+    animation:float-cloud linear infinite;
+  }
+  .cloud.c1{ top:6%; width:120px; animation-duration:38s; }
+  .cloud.c2{ top:16%; width:80px; opacity:0.35; animation-duration:52s; animation-delay:-10s; }
+  .cloud.c3{ top:2%; width:150px; opacity:0.4; animation-duration:64s; animation-delay:-30s; }
+
+  @keyframes float-cloud{
+    0%{ transform:translateX(-20vw); }
+    100%{ transform:translateX(120vw); }
+  }
+
+  /* ---------- grass strip ---------- */
+  .grass-strip{
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:70px;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+  }
+  .blade{
+    flex:none;
+    width:10px;
+    height:38px;
+    background:var(--sage);
+    border-radius:8px 8px 0 0;
+    margin-left:-3px;
+    transform-origin:bottom center;
+    animation:sway-blade 3.5s ease-in-out infinite;
+    opacity:0.55;
+  }
+  .blade:nth-child(3n){ height:50px; background:var(--pine-soft); animation-duration:4.2s; }
+  .blade:nth-child(4n){ height:30px; opacity:0.4; animation-duration:3s; }
+  .blade:nth-child(5n){ animation-delay:-1.2s; }
+  .blade:nth-child(7n){ animation-delay:-2.4s; }
+
+  @keyframes sway-blade{
+    0%, 100%{ transform:rotate(-4deg); }
+    50%{ transform:rotate(5deg); }
+  }
+
+  /* ---------- searching figure ---------- */
+  .searcher{
+    position:absolute;
+    bottom:14px;
+    right:8%;
+    width:70px;
+    z-index:1;
+    animation:searcher-bob 2.6s ease-in-out infinite;
+    transform-origin:bottom center;
+  }
+  @keyframes searcher-bob{
+    0%, 100%{ transform:rotate(0deg) translateY(0); }
+    30%{ transform:rotate(-6deg) translateY(2px); }
+    60%{ transform:rotate(-2deg) translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cloud, .blade, .searcher{ animation:none; }
+  }
+
+  .leaf{
+    position:absolute;
+    opacity:0.35;
+    animation:sway 9s ease-in-out infinite;
+  }
+  @keyframes sway{
+    0%, 100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-14px) rotate(8deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .blob, .leaf{ animation:none; }
+  }
+
+  header{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:28px 6vw;
+    position:relative; z-index:2;
+  }
+
+  .brand{
+    font-family:'Noto Sans Malayalam', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--pine);
+    letter-spacing:0.02em;
+  }
+
+  nav a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    font-size:14px;
+    margin-left:28px;
+  }
+
+  main{
+    position:relative; z-index:2;
+    max-width:640px;
+    margin:0 auto;
+    padding:6vh 24px 10vh;
+    text-align:center;
+  }
+
+  .eyebrow{
+    font-family:'Noto Sans Malayalam', sans-serif;
+    color:var(--clay);
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:18px;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(32px, 6vw, 50px);
+    line-height:1.15;
+    color:var(--pine);
+    margin-bottom:14px;
+  }
+
+  h1 em{
+    font-style:italic;
+    font-weight:300;
+    color:var(--ochre);
+  }
+
+  p.sub{
+    color:var(--pine);
+    font-size:22px;
+    font-weight:700;
+    line-height:1.5;
+    max-width:420px;
+    margin:0 auto 48px;
+  }
+
+  /* ---------- radar ---------- */
+  .radar-wrap{
+    position:relative;
+    width:min(78vw, 360px);
+    aspect-ratio:1/1;
+    margin:0 auto 40px;
+    animation:bob 3.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform:translateY(0) rotate(-1deg); }
+    50%{ transform:translateY(-10px) rotate(1deg); }
+  }
+
+  .antenna{
+    position:absolute;
+    top:-22px; left:50%;
+    transform:translateX(-50%);
+    width:3px; height:20px;
+    background:var(--pine-soft);
+    border-radius:3px;
+    z-index:3;
+  }
+  .antenna::after{
+    content:"";
+    position:absolute;
+    top:-9px; left:50%;
+    transform:translateX(-50%);
+    width:12px; height:12px;
+    border-radius:50%;
+    background:var(--clay);
+    box-shadow:0 0 0 4px rgba(193,122,95,0.18);
+  }
+
+  .radar-disc{
+    width:100%; height:100%;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 32% 28%, rgba(255,255,255,0.6), transparent 45%);
+    position:relative;
+    background-color: #f2ecd9;
+    box-shadow:
+      0 24px 50px -20px rgba(62,86,65,0.35),
+      inset 0 0 0 6px #ffffff,
+      inset 0 0 0 7px rgba(62,86,65,0.18);
+  }
+
+  .face{
+    position:absolute;
+    top:32%; left:50%;
+    transform:translate(-50%,-50%);
+    display:flex;
+    gap:22px;
+    z-index:4;
+  }
+  .eye{
+    width:9px; height:13px;
+    background:var(--ink);
+    border-radius:50%;
+    animation:blink 4.5s ease-in-out infinite;
+  }
+  @keyframes blink{
+    0%, 92%, 100%{ transform:scaleY(1); }
+    96%{ transform:scaleY(0.1); }
+  }
+  .cheek{
+    position:absolute;
+    top:38%;
+    width:16px; height:9px;
+    background:var(--clay);
+    opacity:0.4;
+    border-radius:50%;
+    filter:blur(1.5px);
+    z-index:3;
+  }
+  .cheek.left{ left:26%; }
+  .cheek.right{ right:26%; }
+
+  .smile{
+    position:absolute;
+    top:41%; left:50%;
+    transform:translate(-50%,0);
+    width:16px; height:8px;
+    border-bottom:2.5px solid var(--ink);
+    border-radius:0 0 12px 12px;
+    z-index:4;
+  }
+
+  .sparkle{
+    position:absolute;
+    opacity:0;
+    transform:scale(0.3);
+    transition:opacity 0.4s ease, transform 0.4s ease;
+  }
+  .radar-wrap.found .sparkle{
+    opacity:1;
+    transform:scale(1);
+  }
+  .sparkle.s1{ top:6%; left:12%; transition-delay:0.05s; }
+  .sparkle.s2{ top:14%; right:8%; transition-delay:0.15s; }
+  .sparkle.s3{ bottom:10%; left:6%; transition-delay:0.25s; }
+  .sparkle.s4{ bottom:4%; right:16%; transition-delay:0.35s; }
+
+  .ring{
+    position:absolute;
+    border-radius:50%;
+    border:1.5px dashed rgba(62,86,65,0.22);
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+  }
+  .ring.r1{width:26%; height:26%;}
+  .ring.r2{width:52%; height:52%;}
+  .ring.r3{width:78%; height:78%;}
+  .ring.r4{width:100%; height:100%;}
+
+  .crosshair{
+    position:absolute; background:rgba(62,86,65,0.18);
+  }
+  .crosshair.h{ top:50%; left:6%; right:6%; height:1px; transform:translateY(-50%);}
+  .crosshair.v{ left:50%; top:6%; bottom:6%; width:1px; transform:translateX(-50%);}
+
+  .sweep{
+    position:absolute; inset:0;
+    border-radius:50%;
+    background:conic-gradient(from 0deg, rgba(93,140,90,0.55), rgba(93,140,90,0) 30%);
+    animation:spin 3.4s linear infinite;
+    mix-blend-mode:multiply;
+  }
+
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .blip{
+    position:absolute;
+    width:14px; height:14px;
+    left:64%; top:36%;
+    transform:translate(-50%,-50%);
+    opacity:0;
+  }
+  .blip .dot{
+    width:100%; height:100%;
+    border-radius:50%;
+    background:var(--clay);
+    box-shadow:0 0 0 0 rgba(193,122,95,0.6);
+  }
+  .blip.active{
+    animation:appear 0.6s ease forwards;
+  }
+  .blip.active .dot{
+    animation:ping 1.8s ease-out infinite;
+  }
+  @keyframes appear{ to{ opacity:1; } }
+  @keyframes ping{
+    0%{ box-shadow:0 0 0 0 rgba(193,122,95,0.55); }
+    70%{ box-shadow:0 0 0 22px rgba(193,122,95,0); }
+    100%{ box-shadow:0 0 0 0 rgba(193,122,95,0); }
+  }
+
+  .pen-icon{
+    position:absolute;
+    top:66%; left:50%;
+    transform:translate(-50%,-50%) rotate(-40deg);
+    width:30px; height:30px;
+    opacity:0.9;
+  }
+
+  .status{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:15px;
+    color:var(--pine-soft);
+    min-height:22px;
+    margin-bottom:28px;
+    transition:opacity 0.4s ease;
+  }
+
+  .cta{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--pine);
+    color:var(--paper);
+    border:none;
+    padding:14px 30px;
+    border-radius:30px;
+    font-family:'Nunito Sans', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    box-shadow:0 14px 30px -12px rgba(62,86,65,0.55);
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .cta:hover{ transform:translateY(-2px); box-shadow:0 18px 34px -12px rgba(62,86,65,0.6); }
+  .cta:active{ transform:translateY(0); }
+
+  .result{
+    margin-top:26px;
+    font-size:14px;
+    color:var(--ink-soft);
+    font-family:'Noto Sans Malayalam', 'Nunito Sans', sans-serif;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity 0.5s ease, transform 0.5s ease;
+  }
+  .result.show{ opacity:1; transform:translateY(0); }
+  .result strong{ color:var(--pine); }
+
+  footer{
+    text-align:center;
+    padding:20px 24px 40px;
+    font-size:12px;
+    color:var(--ink-soft);
+    opacity:0.6;
+    position:relative; z-index:2;
+  }
+
+  /* ---------- caught overlay (hardware "pen near" moment) ---------- */
+  .caught-overlay{
+    position:fixed; inset:0;
+    z-index:10;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(44,42,34,0.32);
+    backdrop-filter:blur(3px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.35s ease;
+  }
+  .caught-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .caught-card{
+    background:var(--paper);
+    border-radius:32px;
+    padding:36px 34px 30px;
+    max-width:320px;
+    text-align:center;
+    box-shadow:0 30px 60px -20px rgba(44,42,34,0.5);
+    transform:scale(0.7) rotate(-4deg);
+    transition:transform 0.45s cubic-bezier(.34,1.56,.64,1);
+  }
+  .caught-overlay.show .caught-card{
+    transform:scale(1) rotate(-2deg);
+    animation:giggle 0.6s ease 0.45s;
+  }
+  @keyframes giggle{
+    0%, 100%{ transform:scale(1) rotate(-2deg); }
+    25%{ transform:scale(1) rotate(3deg); }
+    50%{ transform:scale(1) rotate(-3deg); }
+    75%{ transform:scale(1) rotate(2deg); }
+  }
+
+  .caught-face{ margin:0 auto 8px; display:block; }
+
+  .caught-text{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:34px;
+    color:var(--clay);
+    margin-top:6px;
+  }
+  .caught-sub{
+    font-family:'Noto Sans Malayalam', sans-serif;
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-top:10px;
+  }
+
+  .caught-dismiss{
+    margin-top:20px;
+    background:none;
+    border:none;
+    font-family:'Nunito Sans', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    color:var(--pine);
+    cursor:pointer;
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+
+  .caught-sparkle{
+    position:absolute;
+    animation:twirl 2.4s linear infinite;
+  }
+  @keyframes twirl{
+    0%{ transform:rotate(0deg) scale(1); }
+    50%{ transform:rotate(180deg) scale(1.2); }
+    100%{ transform:rotate(360deg) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .sweep{ animation:none; }
+    .blip.active .dot{ animation:none; }
+    .caught-card{ animation:none !important; }
+    .caught-sparkle{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decor">
+  <div class="hill"></div>
+  <div class="hill hill2"></div>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="blob b4"></div>
+  <div class="blob b5"></div>
+
+  <svg class="leaf" style="top:14%; left:8%; width:28px;" viewBox="0 0 24 24" fill="none">
+    <path d="M4 20C4 10 12 4 20 4C20 12 14 20 4 20Z" fill="#5c7458"/>
+  </svg>
+  <svg class="leaf" style="top:70%; left:20%; width:20px; animation-delay:2s;" viewBox="0 0 24 24" fill="none">
+    <path d="M4 20C4 10 12 4 20 4C20 12 14 20 4 20Z" fill="#c99a44"/>
+  </svg>
+  <svg class="leaf" style="top:24%; right:14%; width:24px; animation-delay:4s;" viewBox="0 0 24 24" fill="none">
+    <path d="M4 20C4 10 12 4 20 4C20 12 14 20 4 20Z" fill="#a9c3c6"/>
+  </svg>
+  <svg class="leaf" style="top:64%; right:22%; width:18px; animation-delay:1s;" viewBox="0 0 24 24" fill="none">
+    <path d="M4 20C4 10 12 4 20 4C20 12 14 20 4 20Z" fill="#c17a5f"/>
+  </svg>
+
+  <svg class="cloud c1" viewBox="0 0 100 40" fill="none">
+    <path d="M20 30C10 30 6 22 14 18C14 8 30 6 34 14C42 8 54 12 52 22C60 22 60 30 52 30Z" fill="#ffffff"/>
+  </svg>
+  <svg class="cloud c2" viewBox="0 0 100 40" fill="none">
+    <path d="M20 30C10 30 6 22 14 18C14 8 30 6 34 14C42 8 54 12 52 22C60 22 60 30 52 30Z" fill="#ffffff"/>
+  </svg>
+  <svg class="cloud c3" viewBox="0 0 100 40" fill="none">
+    <path d="M20 30C10 30 6 22 14 18C14 8 30 6 34 14C42 8 54 12 52 22C60 22 60 30 52 30Z" fill="#ffffff"/>
+  </svg>
+
+  <svg class="searcher" viewBox="0 0 70 90" fill="none">
+    <!-- back leg, bent, kneeling -->
+    <path d="M30 62C26 70 24 78 26 86" stroke="#3e5641" stroke-width="7" stroke-linecap="round"/>
+    <!-- front leg, bent, kneeling -->
+    <path d="M42 62C46 70 48 78 44 86" stroke="#3e5641" stroke-width="7" stroke-linecap="round"/>
+    <!-- torso, bent forward searching -->
+    <path d="M32 60C24 52 22 40 30 30C34 26 42 25 48 30" stroke="#c17a5f" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <!-- head -->
+    <circle cx="49" cy="24" r="9" fill="#f2ecd9" stroke="#2c2a22" stroke-width="1.5"/>
+    <!-- back arm reaching down into the grass -->
+    <path d="M34 42C26 46 20 52 16 60" stroke="#c17a5f" stroke-width="7" stroke-linecap="round"/>
+    <!-- front arm reaching down, hand near ground -->
+    <path d="M44 40C50 46 54 54 54 62" stroke="#c17a5f" stroke-width="7" stroke-linecap="round"/>
+    <!-- small magnifying glass in front hand -->
+    <circle cx="56" cy="66" r="6" fill="none" stroke="#3e5641" stroke-width="2.5"/>
+    <path d="M60.5 70.5L65 75" stroke="#3e5641" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+
+  <div class="grass-strip" id="grassStrip"></div>
+</div>
+
+<main>
+  <h1>നിങ്ങൾക്ക് നിങ്ങളുടെ <em>പേന</em><br>വേണോ?</h1>
+  <p class="sub">ഇപ്പോ ശരിയാക്കിത്തരാം.</p>
+
+  <div class="radar-wrap" id="radarWrap">
+    <div class="antenna"></div>
+    <div class="radar-disc">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="ring r4"></div>
+      <div class="crosshair h"></div>
+      <div class="crosshair v"></div>
+      <div class="sweep" id="sweep"></div>
+
+      <div class="face">
+        <div class="eye"></div>
+        <div class="eye"></div>
+      </div>
+      <div class="smile"></div>
+      <div class="cheek left"></div>
+      <div class="cheek right"></div>
+
+      <svg class="sparkle s1" width="16" height="16" viewBox="0 0 24 24" fill="var(--ochre)"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+      <svg class="sparkle s2" width="12" height="12" viewBox="0 0 24 24" fill="var(--sky)"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+      <svg class="sparkle s3" width="10" height="10" viewBox="0 0 24 24" fill="var(--clay)"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+      <svg class="sparkle s4" width="14" height="14" viewBox="0 0 24 24" fill="var(--sage)"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+
+      <svg class="pen-icon" viewBox="0 0 24 24" fill="none">
+        <path d="M4 20L5.2 15.8L15.4 5.6C16 5 17 5 17.6 5.6L18.4 6.4C19 7 19 8 18.4 8.6L8.2 18.8L4 20Z"
+              stroke="#3e5641" stroke-width="1.4" stroke-linejoin="round" fill="#fdf8ec"/>
+        <path d="M13.6 7.4L16.6 10.4" stroke="#3e5641" stroke-width="1.2"/>
+      </svg>
+
+      <div class="blip" id="blip"><div class="dot"></div></div>
+    </div>
+  </div>
+
+  <div class="status" id="status">തിരയുന്നു …</div>
+
+  <button class="cta" id="ctaBtn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11 4a7 7 0 100 14 7 7 0 000-14zM21 21l-4.35-4.35" stroke="#f3efe2" stroke-width="2" stroke-linecap="round"/></svg>
+    പേന കണ്ടെത്തുക
+  </button>
+
+  <div class="result" id="result">
+    <strong>കണ്ടെത്തി!</strong> — സോഫയുടെ വലതു കുഷ്യനടിയിൽ, ഏകദേശം 2 മീറ്റർ അകലെ.
+  </div>
+</main>
+
+<footer>കമ്പിളിപ്പുതപ്പ് കമ്പിളിപ്പുതപ്പ് · നിന്റെ സാധനങ്ങൾ, എപ്പോഴും അടുത്ത്.</footer>
+
+<div class="caught-overlay" id="caughtOverlay">
+  <div class="caught-card">
+    <svg class="caught-sparkle" style="top:-14px; left:-10px; width:22px;" viewBox="0 0 24 24" fill="var(--ochre)"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+    <svg class="caught-sparkle" style="top:-6px; right:-6px; width:16px; animation-delay:0.6s;" viewBox="0 0 24 24" fill="var(--sky)"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+
+    <svg class="caught-face" width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="52" fill="#f2ecd9" stroke="#3e5641" stroke-width="2"/>
+      <!-- laughing squeezed-shut eyes -->
+      <path d="M32 52 Q40 40 48 52" stroke="#2c2a22" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M72 52 Q80 40 88 52" stroke="#2c2a22" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- blush -->
+      <ellipse cx="34" cy="70" rx="9" ry="5.5" fill="var(--clay)" opacity="0.45"/>
+      <ellipse cx="86" cy="70" rx="9" ry="5.5" fill="var(--clay)" opacity="0.45"/>
+      <!-- wide open laughing mouth -->
+      <path d="M42 72 Q60 96 78 72 Q60 84 42 72Z" fill="#3e5641"/>
+      <path d="M50 74 Q60 80 70 74" stroke="#f2ecd9" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- laugh tear -->
+      <path d="M24 58 Q20 66 24 72 Q28 66 24 58Z" fill="var(--sky)" opacity="0.8"/>
+    </svg>
+
+    <div class="caught-text">പറ്റിച്ചേ.....</div>
+    <div class="caught-sub">നിന്റെ പേന ഇപ്പോ അടുത്തുണ്ട്!</div>
+    <button class="caught-dismiss" id="caughtDismiss">ശരി, കാണിക്ക്</button>
+  </div>
+</div>
+
+<script>
+  // Fill the grass strip with blades so we don't hand-write dozens of divs.
+  (function(){
+    const strip = document.getElementById('grassStrip');
+    const bladeWidth = 10; // matches .blade CSS width
+    const count = Math.ceil(window.innerWidth / bladeWidth) + 4;
+    for (let i = 0; i < count; i++){
+      const b = document.createElement('div');
+      b.className = 'blade';
+      strip.appendChild(b);
+    }
+  })();
+
+  const btn = document.getElementById('ctaBtn');
+  const blip = document.getElementById('blip');
+  const status = document.getElementById('status');
+  const result = document.getElementById('result');
+  const sweep = document.getElementById('sweep');
+  const radarWrap = document.getElementById('radarWrap');
+  const caughtOverlay = document.getElementById('caughtOverlay');
+  const caughtDismiss = document.getElementById('caughtDismiss');
+  let searching = false;
+
+  // Called when the "pen is near" moment happens — wire this to your
+  // hardware signal (see the integration examples below).
+  function triggerCaught(){
+    caughtOverlay.classList.add('show');
+  }
+  function hideCaught(){
+    caughtOverlay.classList.remove('show');
+  }
+  caughtDismiss.addEventListener('click', hideCaught);
+  caughtOverlay.addEventListener('click', (e) => {
+    if (e.target === caughtOverlay) hideCaught();
+  });
+
+  // Expose globally so hardware-facing code can call it directly,
+  // e.g. window.triggerCaught()
+  window.triggerCaught = triggerCaught;
+
+  // Set this to your ESP32's mDNS hostname or numeric IP
+  // (from the Arduino Serial Monitor: "Connected! IP address: ...").
+  const DEVICE_ADDRESS = 'penfinder.local';
+
+  let pollTimer = null;
+  const POLL_INTERVAL_MS = 700;
+  const SEARCH_TIMEOUT_MS = 15000; // give up if pen never comes near
+
+  function getDeviceUrl(path){
+    return `http://${DEVICE_ADDRESS}${path}`;
+  }
+
+  function showSearchingUI(){
+    blip.classList.remove('active');
+    radarWrap.classList.remove('found');
+    result.classList.remove('show');
+    status.style.opacity = 1;
+    status.textContent = 'തിരയുന്നു …';
+    sweep.style.animationDuration = '0.9s';
+  }
+
+  function showFoundUI(){
+    sweep.style.animationDuration = '3.4s';
+    blip.classList.add('active');
+    radarWrap.classList.add('found');
+    status.textContent = 'സിഗ്നൽ കണ്ടെത്തി';
+    result.classList.add('show');
+    triggerCaught();
+  }
+
+  function stopPolling(){
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = null;
+    searching = false;
+  }
+
+  btn.addEventListener('click', async () => {
+    if (searching) return;
+
+    searching = true;
+    showSearchingUI();
+
+    // 1. Tell the ESP32 to buzz/light up so you can hear/see it while you search.
+    try {
+      await fetch(getDeviceUrl('/find'));
+    } catch (err) {
+      status.textContent = 'ESP32-ലേക്ക് കണക്ട് ചെയ്യാൻ കഴിഞ്ഞില്ല';
+      searching = false;
+      return;
+    }
+
+    // 2. Poll /status. The ESP32 sets LED_PIN and BUZZER_PIN to LOW exactly
+    //    when far === false (see loop() in the .ino) — that's our "found" trigger.
+    const startedAt = Date.now();
+    pollTimer = setInterval(async () => {
+      if (Date.now() - startedAt > SEARCH_TIMEOUT_MS) {
+        stopPolling();
+        status.textContent = 'കണ്ടെത്താൻ കഴിഞ്ഞില്ല, വീണ്ടും ശ്രമിക്കുക';
+        return;
+      }
+      try {
+        const res = await fetch(getDeviceUrl('/status'));
+        const data = await res.json(); // { far: bool, rssi: number }
+        if (data.far === false) {
+          stopPolling();
+          showFoundUI();
+        }
+      } catch (err) {
+        // transient network hiccup — keep polling until timeout
+      }
+    }, POLL_INTERVAL_MS);
+  });
+</script>
+
+</body>
+</html>
