@@ -19,6 +19,9 @@ To build a Wi-Fi-based ESP32 system that detects how close you are to your penâ€
 ### The Problem (that doesn't exist)
 To find mec pen thief
 
+
+
+<img width="400" height="640" alt="git (2)" src="./IMG/think.jpg" />
 ### The Solution (that nobody asked for)
 to not find the pen( helping the thief)
 
