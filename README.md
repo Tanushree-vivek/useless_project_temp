@@ -39,7 +39,9 @@ SOFTWARE TOOLS
 - C/C++ AURDINO PROGRAMING 
 - ESP32 Wifi FUNCTIONALITY 
 
-
+# SOFTWARE LINK
+this a basic intoduction of wht our project does. its just an ui telling what it is 
+public link : https://useless-project-temp-sooty-six.vercel.app/
 
 # Schematic & Circuit
 <img width="500" height="640" alt="git (3)" src="./IMG/idk.jpg" />
